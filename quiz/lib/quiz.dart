@@ -16,10 +16,11 @@ class Quiz extends StatelessWidget {
         Question(
           questiontext: questions[questionIndex]['questionText'],
         ),
-        ...(questions[questionIndex]['answers'] as List<String>).map((answer) {
+        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
+            .map((answer) {
           return Answer(
-            onPressed: onPressed,
-            answerText: answer,
+            onPressed: () => onPressed(answer['score']),
+            answerText: answer['text'],
           );
         }).toList()
       ],
