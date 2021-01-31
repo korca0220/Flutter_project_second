@@ -15,9 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             'My Quiz App',
-            textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.deepPurple,
           leading: Container(),
