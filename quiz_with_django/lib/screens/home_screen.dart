@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_with_django/models/model_quiz.dart';
+import 'package:quiz_with_django/screens/quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,6 +8,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Quiz> quizs = [
+    Quiz.fromMap({
+      'title': 'test',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+    Quiz.fromMap({
+      'title': 'test2',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 1
+    }),
+    Quiz.fromMap({
+      'title': 'test3',
+      'candidates': ['a', 'b', 'c', 'd'],
+      'answer': 2
+    }),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -68,7 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       primary: Colors.deepPurple,
                       minimumSize: Size(width * 0.5, height * 0.05),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return QuizScreen(quizs: quizs);
+                      }));
+                    },
                   ),
                 ),
               ),
