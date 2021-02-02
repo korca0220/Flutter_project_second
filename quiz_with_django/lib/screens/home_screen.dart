@@ -4,6 +4,7 @@ import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:quiz_with_django/screens/quiz_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:quiz_with_django/const.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -77,45 +78,33 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(padding: EdgeInsets.all(width * 0.048)),
             Container(
               child: Center(
-                child: ButtonTheme(
-                  minWidth: width * 0.8,
-                  height: height * 0.05,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ElevatedButton(
-                    child: Text(
-                      '지금 퀴즈 풀기',
-                      style: TextStyle(
-                        color: Colors.white,
+                child: kColorButton(
+                  width: width,
+                  height: height,
+                  onPrimary: Colors.white,
+                  primary: Colors.deepPurple,
+                  child: kNormalBoldText(text: '지금 퀴즈 풀기'),
+                  onPressed: () {
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      content: Row(
+                        children: <Widget>[
+                          CircularProgressIndicator(),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.036),
+                          ),
+                          Text('Loading...')
+                        ],
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.deepPurple,
-                      minimumSize: Size(width * 0.7, height * 0.05),
-                    ),
-                    onPressed: () {
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Row(
-                          children: <Widget>[
-                            CircularProgressIndicator(),
-                            Padding(
-                              padding: EdgeInsets.only(left: width * 0.036),
-                            ),
-                            Text('Loading...')
-                          ],
-                        ),
-                      ));
-                      _fetchQuizes().whenComplete(() {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (context) {
-                          return QuizScreen(
-                            quizs: quizs,
-                          );
-                        }), (route) => false);
-                      });
-                    },
-                  ),
+                    ));
+                    _fetchQuizes().whenComplete(() {
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) {
+                        return QuizScreen(
+                          quizs: quizs,
+                        );
+                      }), (route) => false);
+                    });
+                  },
                 ),
               ),
             ),

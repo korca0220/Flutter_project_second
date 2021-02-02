@@ -39,7 +39,7 @@ class _QuizScreenState extends State<QuizScreen> {
               border: Border.all(color: Colors.deepPurple),
             ),
             width: width * 0.85,
-            height: height * 0.5,
+            height: height * 0.55,
             child: Swiper(
               controller: _controller,
               physics: NeverScrollableScrollPhysics(),
@@ -97,7 +97,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(width * 0.5, height * 0.05),
+                  minimumSize: Size(width * 0.4, height * 0.05),
                   onPrimary: Colors.white,
                   primary: Colors.deepPurple,
                   shape: RoundedRectangleBorder(

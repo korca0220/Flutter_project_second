@@ -83,17 +83,12 @@ class ResultScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size(width * 0.7, height * 0.05),
-                          onPrimary: Colors.black,
-                          primary: Colors.white),
-                      child: Text(
-                        '처음으로 돌아가기',
-                        style: TextStyle(
-                            fontSize: width * 0.04,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    child: kColorButton(
+                      width: width,
+                      height: height,
+                      onPrimary: Colors.black,
+                      primary: Colors.white,
+                      child: kNormalBoldText(text: '처음으로 돌아가기'),
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
