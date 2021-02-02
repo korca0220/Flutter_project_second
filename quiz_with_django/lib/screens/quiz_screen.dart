@@ -6,7 +6,7 @@ import 'package:quiz_with_django/screens/result_screen.dart';
 import 'package:quiz_with_django/widgets/widget_candidate.dart';
 
 class QuizScreen extends StatefulWidget {
-  List<Quiz> quizs;
+  final List<Quiz> quizs;
   QuizScreen({this.quizs});
 
   @override
@@ -18,6 +18,11 @@ class _QuizScreenState extends State<QuizScreen> {
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
   SwiperController _controller = SwiperController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,31 +96,32 @@ class _QuizScreenState extends State<QuizScreen> {
             padding: EdgeInsets.all(width * 0.024),
             child: Center(
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(width * 0.5, height * 0.05),
-                    onPrimary: Colors.white,
-                    primary: Colors.deepPurple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(width * 0.5, height * 0.05),
+                  onPrimary: Colors.white,
+                  primary: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  child: _currentIndex == widget.quizs.length - 1
-                      ? Text('결과보기')
-                      : Text('다음문제'),
-                  onPressed: _answers[_currentIndex] == -1
-                      ? null
-                      : () {
-                          if (_currentIndex == widget.quizs.length - 1) {
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ResultScreen(quizs: widget.quizs);
-                            }), (route) => false);
-                          } else {
-                            _answerState = [false, false, false, false];
-                            _currentIndex += 1;
-                            _controller.next();
-                          }
-                        }),
+                ),
+                child: _currentIndex == widget.quizs.length - 1
+                    ? Text('결과보기')
+                    : Text('다음문제'),
+                onPressed: _answers[_currentIndex] == -1
+                    ? null
+                    : () {
+                        if (_currentIndex == widget.quizs.length - 1) {
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ResultScreen(quizs: widget.quizs);
+                          }), (route) => false);
+                        } else {
+                          _answerState = [false, false, false, false];
+                          _currentIndex += 1;
+                          _controller.next();
+                        }
+                      },
+              ),
             ),
           )
           // Column(children: _bu

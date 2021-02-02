@@ -3,7 +3,7 @@ import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:quiz_with_django/screens/home_screen.dart';
 
 class ResultScreen extends StatelessWidget {
-  List<Quiz> quizs;
+  final List<Quiz> quizs;
   ResultScreen({this.quizs});
 
   @override

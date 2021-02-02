@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CandidateWidget extends StatefulWidget {
-  VoidCallback tap;
-  String text;
-  int index;
-  double width;
+  final VoidCallback tap;
+  final String text;
+  final int index;
+  final double width;
   bool answerState;
   CandidateWidget(
       {this.tap, this.text, this.index, this.width, this.answerState});

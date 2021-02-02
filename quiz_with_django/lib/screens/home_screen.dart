@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_with_django/models/api_adapter.dart';
 import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:quiz_with_django/screens/quiz_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,23 +11,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Quiz> quizs = [
-    Quiz.fromMap({
-      'title': 'test',
-      'candidates': ['a', 'b', 'c', 'd'],
-      'answer': 0
-    }),
-    Quiz.fromMap({
-      'title': 'test2',
-      'candidates': ['a', 'b', 'c', 'd'],
-      'answer': 1
-    }),
-    Quiz.fromMap({
-      'title': 'test3',
-      'candidates': ['a', 'b', 'c', 'd'],
-      'answer': 2
-    }),
-  ];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Quiz> quizs;
+  bool isLoading = false;
+
+  _fetchQuizes() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response =
+        await http.get('https://junewoo-drf.herokuapp.com/quiz/3/');
+    if (response.statusCode == 200) {
+      setState(() {
+        quizs = parseQuizes(utf8.decode(response.bodyBytes));
+        isLoading = false;
+      });
+    } else {
+      throw Exception('failed to load data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -89,10 +95,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       minimumSize: Size(width * 0.5, height * 0.05),
                     ),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (context) {
-                        return QuizScreen(quizs: quizs);
-                      }), (route) => false);
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        content: Row(
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                            Padding(
+                              padding: EdgeInsets.only(left: width * 0.036),
+                            ),
+                            Text('Loading...')
+                          ],
+                        ),
+                      ));
+                      _fetchQuizes().whenComplete(() {
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return QuizScreen(
+                            quizs: quizs,
+                          );
+                        }), (route) => false);
+                      });
                     },
                   ),
                 ),
