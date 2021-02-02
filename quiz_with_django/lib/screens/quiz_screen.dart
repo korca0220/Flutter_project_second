@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:quiz_with_django/screens/result_screen.dart';
 import 'package:quiz_with_django/widgets/widget_candidate.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<int> _answers = [-1, -1, -1];
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
+  SwiperController _controller = SwiperController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
             width: width * 0.85,
             height: height * 0.5,
             child: Swiper(
+              controller: _controller,
               physics: NeverScrollableScrollPhysics(),
               loop: false,
               itemCount: widget.quizs.length,
@@ -52,6 +55,7 @@ class _QuizScreenState extends State<QuizScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white),
+        color: Colors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,6 +87,37 @@ class _QuizScreenState extends State<QuizScreen> {
           Column(
             children: _buildCandidates(width, quiz),
           ),
+          Container(
+            padding: EdgeInsets.all(width * 0.024),
+            child: Center(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(width * 0.5, height * 0.05),
+                    onPrimary: Colors.white,
+                    primary: Colors.deepPurple,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: _currentIndex == widget.quizs.length - 1
+                      ? Text('결과보기')
+                      : Text('다음문제'),
+                  onPressed: _answers[_currentIndex] == -1
+                      ? null
+                      : () {
+                          if (_currentIndex == widget.quizs.length - 1) {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ResultScreen(quizs: widget.quizs);
+                            }), (route) => false);
+                          } else {
+                            _answerState = [false, false, false, false];
+                            _currentIndex += 1;
+                            _controller.next();
+                          }
+                        }),
+            ),
+          )
           // Column(children: _bu
         ],
       ),

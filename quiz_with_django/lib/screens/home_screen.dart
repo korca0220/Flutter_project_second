@@ -89,10 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       minimumSize: Size(width * 0.5, height * 0.05),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (context) {
                         return QuizScreen(quizs: quizs);
-                      }));
+                      }), (route) => false);
                     },
                   ),
                 ),
