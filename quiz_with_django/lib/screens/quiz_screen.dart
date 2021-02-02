@@ -113,7 +113,10 @@ class _QuizScreenState extends State<QuizScreen> {
                         if (_currentIndex == widget.quizs.length - 1) {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) {
-                            return ResultScreen(quizs: widget.quizs);
+                            return ResultScreen(
+                              quizs: widget.quizs,
+                              answers: _answers,
+                            );
                           }), (route) => false);
                         } else {
                           _answerState = [false, false, false, false];

@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.deepPurple,
-                      minimumSize: Size(width * 0.5, height * 0.05),
+                      minimumSize: Size(width * 0.7, height * 0.05),
                     ),
                     onPressed: () {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:quiz_with_django/screens/home_screen.dart';
+import 'package:quiz_with_django/const.dart';
 
 class ResultScreen extends StatelessWidget {
   final List<Quiz> quizs;
-  ResultScreen({this.quizs});
+  final List<int> answers;
+  ResultScreen({this.quizs, this.answers});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,12 @@ class ResultScreen extends StatelessWidget {
     double width = screenSize.width;
     double height = screenSize.height;
     int _socre = 0;
+
+    for (int i = 0; i < quizs.length; i++) {
+      if (quizs[i].answer == answers[i]) {
+        _socre += 1;
+      }
+    }
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -24,33 +32,25 @@ class ResultScreen extends StatelessWidget {
             child: Container(
               width: width * 0.8,
               height: height * 0.45,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.deepPurple),
-              ),
+              decoration: kPurpleBoxDecoration(),
               child: Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: width * 0.048),
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.deepPurple),
-                    ),
+                    decoration: kPurpleBoxDecoration(color: Colors.white),
                     width: width * 0.70,
                     height: height * 0.24,
                     child: Column(
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.only(
-                              top: width * 0.048, bottom: width * 0.012),
+                              top: width * 0.02, bottom: width * 0.012),
                           child: Text(
-                            '수고하셨습니다',
+                            '수고하셨습니다 !',
                             style: TextStyle(
-                              fontSize: width * 0.055,
+                              fontSize: width * 0.07,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
