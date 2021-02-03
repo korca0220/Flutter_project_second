@@ -84,8 +84,7 @@ class ResultScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: kColorButton(
-                      width: width,
-                      height: height,
+                      minimumSize: Size(width * 0.5, height * 0.05),
                       onPrimary: Colors.black,
                       primary: Colors.white,
                       child: kNormalBoldText(text: '처음으로 돌아가기'),

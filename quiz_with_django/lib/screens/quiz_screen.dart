@@ -4,6 +4,7 @@ import 'package:quiz_with_django/models/model_quiz.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:quiz_with_django/screens/result_screen.dart';
 import 'package:quiz_with_django/widgets/widget_candidate.dart';
+import 'package:quiz_with_django/const.dart';
 
 class QuizScreen extends StatefulWidget {
   final List<Quiz> quizs;
@@ -88,22 +89,19 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
-          Expanded(child: Container()),
-          Column(
-            children: _buildCandidates(width, quiz),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: _buildCandidates(width, quiz),
+            ),
           ),
           Container(
             padding: EdgeInsets.all(width * 0.024),
             child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(width * 0.4, height * 0.05),
-                  onPrimary: Colors.white,
-                  primary: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
+              child: kShapeButton(
+                minimumSize: Size(width * 0.4, height * 0.05),
+                onPrimary: Colors.white,
+                primary: Colors.deepPurple,
                 child: _currentIndex == widget.quizs.length - 1
                     ? Text('결과보기')
                     : Text('다음문제'),

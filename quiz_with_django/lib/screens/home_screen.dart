@@ -75,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 child: Center(
                   child: kColorButton(
-                    width: width,
-                    height: height,
+                    minimumSize: Size(width * 0.5, height * 0.05),
                     onPrimary: Colors.white,
                     primary: Colors.deepPurple,
                     child: kNormalBoldText(text: '지금 퀴즈 풀기'),

@@ -8,8 +8,7 @@ BoxDecoration kPurpleBoxDecoration({Color color = Colors.deepPurple}) {
 }
 
 ElevatedButton kColorButton(
-    {double width,
-    double height,
+    {Size minimumSize,
     Color onPrimary,
     Color primary,
     Widget child,
@@ -18,9 +17,26 @@ ElevatedButton kColorButton(
     onPressed: onPressed,
     child: child,
     style: ElevatedButton.styleFrom(
-        minimumSize: Size(width * 0.5, height * 0.05),
+        minimumSize: minimumSize, onPrimary: onPrimary, primary: primary),
+  );
+}
+
+ElevatedButton kShapeButton(
+    {Size minimumSize,
+    Color onPrimary,
+    Color primary,
+    Widget child,
+    Function onPressed}) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    child: child,
+    style: ElevatedButton.styleFrom(
+        minimumSize: minimumSize,
         onPrimary: onPrimary,
-        primary: primary),
+        primary: primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        )),
   );
 }
 
