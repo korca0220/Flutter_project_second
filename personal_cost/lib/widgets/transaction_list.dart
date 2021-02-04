@@ -9,8 +9,10 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double height = screenSize.height;
     return Container(
-      height: 530,
+      height: height * 0.7,
       child: transactions.isEmpty
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.center,

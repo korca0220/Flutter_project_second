@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Void _deleteTransaction(Transaction transaction) {
+  void _deleteTransaction(Transaction transaction) {
     setState(() {
       _userTransaction.remove(transaction);
     });
