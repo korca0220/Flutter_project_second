@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:personal_cost/widgets/chart.dart';
 import 'package:personal_cost/widgets/new_transaction.dart';
@@ -65,6 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Void _deleteTransaction(Transaction transaction) {
+    setState(() {
+      _userTransaction.remove(transaction);
+    });
+  }
+
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -100,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Chart(recentTransactions: _recentTransactions),
-            TransactionList(transactions: _userTransaction),
+            TransactionList(
+                transactions: _userTransaction, delTx: _deleteTransaction),
           ],
         ),
       ),
