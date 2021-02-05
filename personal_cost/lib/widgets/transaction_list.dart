@@ -10,29 +10,31 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                child: Text(
-                  'No transactions added yet!!',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 300,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (context, constrains) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    'No transactions added yet!!',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
-              ),
-            ],
-          )
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: constrains.maxHeight * 0.6,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemBuilder: (context, index) {
               return Card(
