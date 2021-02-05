@@ -9,60 +9,59 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double height = screenSize.height;
-    return Container(
-      height: height * 0.7,
-      child: transactions.isEmpty
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
+    return transactions.isEmpty
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Text(
                   'No transactions added yet!!',
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 200,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 300,
+                child: Center(
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
                 ),
-              ],
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                  elevation: 6,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: FittedBox(
-                        child: Text(
-                            '\$${transactions[index].amount.toStringAsFixed(0)}'),
-                      ),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                elevation: 6,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: FittedBox(
+                      child: Text(
+                          '\$${transactions[index].amount.toStringAsFixed(0)}'),
                     ),
-                    title: Text(
-                      '${transactions[index].title}',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                        DateFormat.yMMMd().format(transactions[index].date)),
-                    trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).errorColor,
-                        ),
-                        onPressed: () => delTx(transactions[index])),
                   ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                  title: Text(
+                    '${transactions[index].title}',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle:
+                      Text(DateFormat.yMMMd().format(transactions[index].date)),
+                  trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).errorColor,
+                      ),
+                      onPressed: () => delTx(transactions[index])),
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }
