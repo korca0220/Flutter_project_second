@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/screens/filtter_screen.dart';
+import 'package:path/path.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function tapHandler) {
@@ -22,6 +23,7 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var route = ModalRoute.of(context).settings.name;
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topRight: Radius.circular(20),
@@ -53,14 +55,23 @@ class MainDrawer extends StatelessWidget {
               'Meals',
               Icons.restaurant,
               () {
-                Navigator.of(context).pushNamed('/');
+                if (route != '/') {
+                  Navigator.of(context).pushReplacementNamed('/');
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             buildListTile(
               'Filters',
               Icons.settings,
               () {
-                Navigator.of(context).pushNamed(FilterScreen.routeName);
+                if (route != FilterScreen.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(FilterScreen.routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             )
           ],
