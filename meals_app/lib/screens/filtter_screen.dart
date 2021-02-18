@@ -38,25 +38,21 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
+  void _toggleFilter() {
+    final selectedFilter = {
+      'gluten': _glutenFree,
+      'vegetarian': _vegetarian,
+      'vegan': _vegan,
+      'lactose': _lcatoseFree,
+    };
+    widget.saveFilter(selectedFilter);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Your title'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: () {
-              final selectedFilter = {
-                'gluten': _glutenFree,
-                'vegetarian': _vegetarian,
-                'vegan': _vegan,
-                'lactose': _lcatoseFree,
-              };
-              widget.saveFilter(selectedFilter);
-            },
-          )
-        ],
       ),
       drawer: MainDrawer(),
       body: Column(
@@ -75,6 +71,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     'Only include gluten-free meals', _glutenFree, (newValue) {
                   setState(() {
                     _glutenFree = newValue;
+                    _toggleFilter();
                   });
                 }),
                 _buildSwitchListTile(
@@ -83,6 +80,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     _lcatoseFree, (newValue) {
                   setState(() {
                     _lcatoseFree = newValue;
+                    _toggleFilter();
                   });
                 }),
                 _buildSwitchListTile(
@@ -90,12 +88,14 @@ class _FilterScreenState extends State<FilterScreen> {
                     (newValue) {
                   setState(() {
                     _vegetarian = newValue;
+                    _toggleFilter();
                   });
                 }),
                 _buildSwitchListTile(
                     'Vegan', 'Only include Vegan meals', _vegan, (newValue) {
                   setState(() {
                     _vegan = newValue;
+                    _toggleFilter();
                   });
                 })
               ],
