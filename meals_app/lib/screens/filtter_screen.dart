@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
 class FilterScreen extends StatefulWidget {
