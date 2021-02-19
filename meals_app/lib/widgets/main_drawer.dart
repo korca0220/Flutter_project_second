@@ -2,20 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/screens/filtter_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  Widget buildListTile(String title, IconData icon, Function tapHandler) {
+  Widget buildListTile(
+      BuildContext ctx, String title, IconData icon, Function tapHandler) {
     return ListTile(
       leading: Icon(
         icon,
         size: 26,
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontFamily: 'RobotoCondensed',
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      title: Text(title, style: Theme.of(ctx).textTheme.headline5),
       onTap: tapHandler,
     );
   }
@@ -51,6 +45,7 @@ class MainDrawer extends StatelessWidget {
               height: 20,
             ),
             buildListTile(
+              context,
               'Meals',
               Icons.restaurant,
               () {
@@ -62,6 +57,7 @@ class MainDrawer extends StatelessWidget {
               },
             ),
             buildListTile(
+              context,
               'Filters',
               Icons.settings,
               () {
