@@ -16,23 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => MyHomePage(),
-        ProdulctsOverviewScreen.pageId: (ctx) => ProdulctsOverviewScreen(),
+        '/': (ctx) => ProdulctsOverviewScreen(),
       },
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MyShop'),
-      ),
-      body: Center(
-        child: Text('Let\'s build a shop!'),
-      ),
     );
   }
 }
