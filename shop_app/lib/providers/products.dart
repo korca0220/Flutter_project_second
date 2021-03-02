@@ -23,7 +23,8 @@ class Products with ChangeNotifier {
     Product(
       id: 'p3',
       title: 'Yellow Scarf',
-      description: 'Warm and cozy - exactly what you need for the winter.',
+      description:
+          'Warm and cozy - exactly what you need for the winter GoodGood Gooooooooooood!.',
       price: 19.99,
       imageUrl:
           'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
