@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/edit_product_screen.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -30,7 +32,30 @@ class UserProductItem extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: Text('Remove Shop item'),
+                    content:
+                        Text('Do you want to remove the item from the Shop?'),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No')),
+                      TextButton(
+                          onPressed: () {
+                            Provider.of<Products>(context, listen: false)
+                                .deleteProduct(id);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Yes')),
+                    ],
+                  ),
+                );
+              },
               color: Theme.of(context).errorColor,
             )
           ],
