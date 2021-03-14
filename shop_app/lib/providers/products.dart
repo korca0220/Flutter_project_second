@@ -53,9 +53,9 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     const url = '';
-    http
+    return http
         .post(Uri.parse(url),
             body: json.encode({
               'title': product.title,
