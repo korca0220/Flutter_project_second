@@ -12,7 +12,7 @@ class ProductsGrid extends StatelessWidget {
     final productsData = Provider.of<Products>(context);
     final products =
         showFavorites ? productsData.favoriteItems : productsData.items;
-    ;
+
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
