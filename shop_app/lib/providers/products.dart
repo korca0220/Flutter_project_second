@@ -53,18 +53,17 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  Future<void> addProduct(Product product) {
-    const url = '';
-    return http
-        .post(Uri.parse(url),
-            body: json.encode({
-              'title': product.title,
-              'description': product.description,
-              'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isFavorite': product.isFavorite,
-            }))
-        .then((response) {
+  Future<void> addProduct(Product product) async {
+    const url = 'https://ttt.com';
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: json.encode({
+            'title': product.title,
+            'description': product.description,
+            'imageUrl': product.imageUrl,
+            'price': product.price,
+            'isFavorite': product.isFavorite,
+          }));
       final newProduct = Product(
         id: json.decode(response.body)['name'],
         title: product.title,
@@ -74,10 +73,10 @@ class Products with ChangeNotifier {
       );
       _items.add(newProduct);
       notifyListeners();
-    }).catchError((onError) {
-      print(onError);
-      throw onError;
-    });
+    } catch (error) {
+      print(error);
+      throw (error);
+    }
   }
 
   void updateProduct(String id, Product newProduct) {
