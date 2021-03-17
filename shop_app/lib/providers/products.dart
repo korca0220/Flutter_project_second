@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -99,7 +97,20 @@ class Products with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((element) => element.id == id);
+    final url =
+        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products/$id.json';
+    final existingProductIndex =
+        _items.indexWhere((element) => element.id == id);
+    var existingProudct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
+
+    // http delete 요청이 실패하면 제품을 다시 삽입
+    // optimistic update
+    http.delete(Uri.parse(url)).then((_) {
+      existingProudct = null;
+    }).catchError((onError) {
+      _items.insert(existingProductIndex, existingProudct);
+    });
     notifyListeners();
   }
 }
