@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -73,8 +75,23 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
+    if (prodIndex > 0) {
+      final url =
+          'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products/$id.json';
+      await http.patch(
+        Uri.parse(url),
+        body: json.encode(
+          {
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'price': newProduct.price,
+            'imageUrl': newProduct.imageUrl,
+          },
+        ),
+      );
+    }
     if (prodIndex >= 0) {
       _items[prodIndex] = newProduct;
       notifyListeners();
