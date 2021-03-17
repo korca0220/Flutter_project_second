@@ -21,7 +21,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    const url = '';
+    const url =
+        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products.json';
     try {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -46,7 +47,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = '';
+    const url =
+        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products.json';
     try {
       final response = await http.post(Uri.parse(url),
           body: json.encode({
