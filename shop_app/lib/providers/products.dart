@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/providers/product.dart';
 
 class Products with ChangeNotifier {
@@ -12,6 +13,9 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
+  static const idUrl = '';
+  static const url = '';
+
   List<Product> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
   }
@@ -21,8 +25,6 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    const url =
-        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products.json';
     try {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -47,8 +49,6 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url =
-        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products.json';
     try {
       final response = await http.post(Uri.parse(url),
           body: json.encode({
@@ -76,10 +76,8 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex > 0) {
-      final url =
-          'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products/$id.json';
       await http.patch(
-        Uri.parse(url),
+        Uri.parse(idUrl),
         body: json.encode(
           {
             'title': newProduct.title,
@@ -96,21 +94,20 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    final url =
-        'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products/$id.json';
+  // http delete 요청이 실패하면 제품을 다시 삽입
+  // optimistic update
+  Future<void> deleteProduct(String id) async {
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     var existingProudct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
-
-    // http delete 요청이 실패하면 제품을 다시 삽입
-    // optimistic update
-    http.delete(Uri.parse(url)).then((_) {
-      existingProudct = null;
-    }).catchError((onError) {
-      _items.insert(existingProductIndex, existingProudct);
-    });
     notifyListeners();
+    final response = await http.delete(Uri.parse(idUrl));
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProudct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+    existingProudct = null;
   }
 }

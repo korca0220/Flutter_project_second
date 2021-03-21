@@ -12,6 +12,7 @@ class UserProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldManager = ScaffoldMessenger.of(context);
     return ListTile(
       tileColor: Colors.grey.withOpacity(0.2),
       title: Text(title),
@@ -46,9 +47,21 @@ class UserProductItem extends StatelessWidget {
                           },
                           child: Text('No')),
                       TextButton(
-                          onPressed: () {
-                            Provider.of<Products>(context, listen: false)
-                                .deleteProduct(id);
+                          onPressed: () async {
+                            try {
+                              await Provider.of<Products>(context,
+                                      listen: false)
+                                  .deleteProduct(id);
+                            } catch (error) {
+                              scaffoldManager.showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Deleting failed!!',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }
                             Navigator.of(context).pop();
                           },
                           child: Text('Yes')),
