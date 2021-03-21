@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/const.dart';
 import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/providers/product.dart';
 
@@ -13,9 +14,6 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
-  static const idUrl = '';
-  static const url = '';
-
   List<Product> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
   }
@@ -26,7 +24,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(kPrdouctUrl());
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
@@ -50,7 +48,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     try {
-      final response = await http.post(Uri.parse(url),
+      final response = await http.post(kPrdouctUrl(),
           body: json.encode({
             'title': product.title,
             'description': product.description,
@@ -77,7 +75,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex > 0) {
       await http.patch(
-        Uri.parse(idUrl),
+        kProductUrlWithId(id),
         body: json.encode(
           {
             'title': newProduct.title,
@@ -102,7 +100,7 @@ class Products with ChangeNotifier {
     var existingProudct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
-    final response = await http.delete(Uri.parse(idUrl));
+    final response = await http.delete(kProductUrlWithId(id));
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProudct);
       notifyListeners();
