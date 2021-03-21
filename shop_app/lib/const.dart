@@ -5,3 +5,7 @@ Uri kPrdouctUrl() {
 Uri kProductUrlWithId(String id) {
   return Uri.parse('');
 }
+
+Uri kOrderUrl() {
+  return Uri.parse('');
+}
