@@ -53,7 +53,10 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
+    // 서버 지연시간으로 시간이 달라질 수 있으므로 미리 timestamp 생성
     final timestamp = DateTime.now();
+
+    // DB서버에 삽입
     final response = await http.post(
       kOrderUrl(),
       body: json.encode(
@@ -73,14 +76,14 @@ class Orders with ChangeNotifier {
         },
       ),
     );
+    // 내부 메모리에서도 삽입
     _orders.insert(
       0,
       OrderItem(
-        id: json.decode(response.body)['name'],
-        amount: total,
-        products: cartProducts,
-        dateTime: DateTime.now(),
-      ),
+          id: json.decode(response.body)['name'],
+          amount: total,
+          products: cartProducts,
+          dateTime: timestamp),
     );
     notifyListeners();
   }
