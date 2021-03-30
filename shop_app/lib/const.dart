@@ -1,14 +1,11 @@
 Uri kPrdouctUrl() {
-  return Uri.parse(
-      'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products.json');
+  return Uri.parse('');
 }
 
 Uri kProductUrlWithId(String id) {
-  return Uri.parse(
-      'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/products/$id.json');
+  return Uri.parse('');
 }
 
 Uri kOrderUrl() {
-  return Uri.parse(
-      'https://flutter-shop-app-c87f7-default-rtdb.firebaseio.com/orders.json');
+  return Uri.parse('');
 }
