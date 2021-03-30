@@ -9,3 +9,8 @@ Uri kProductUrlWithId(String id) {
 Uri kOrderUrl() {
   return Uri.parse('');
 }
+
+Uri kAuthUrl() {
+  return Uri.parse(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=');
+}
